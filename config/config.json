@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "database_development",
+    "password": "Viviana01",
+    "database": "burgers_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "v6xqydbwvzzhlb9b",
+    "password": "jkcxhp03p3j2srd0",
+    "database": "heroku_jawsdb",
+    "host": "h40lg7qyub2umdvb.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   }
 }
