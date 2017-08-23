@@ -1,8 +1,11 @@
 var express = require("express");
 var router = express.Router();
+var models = require("../models/");
+
 
 // Import the model to use its database functions.
-var burgers = require('../models/burger.js');
+// var burgers = require('../models/');
+
 
 router.get("/", function (req, res) {
     res.redirect("/burgers")
@@ -11,29 +14,49 @@ router.get("/", function (req, res) {
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/burgers", function (req, res) {
-    burgers.all(function(data){
+    
+    //sequelize to get burgers from db
+        models.burgers.findAll({ 
+        }).then(function(data) {
+        console.log(data);
+    //pass returned object to handlebars obj
         var hbsObject = {burgers: data};
         console.log(hbsObject);
         res.render("index", hbsObject);
     });
 });
 
+//Create a new burger
 router.post("/burgers/create", function(req, res){
-    burgers.create(["burger_name", "devoured"], [req.body.name, false], function(){
-        res.redirect("/burgers")
+    
+    //sequelize query to add burger to dbase
+    models.burgers.create(
+      {
+        burger_name: req.body.burger_name,
+        devoured: false
+      }
+    ).then(function(data){
+        console.log(data);
+
+        res.redirect("/burgers");
     });
 });
 
-router.put("/burgers/update/:id", function (req, res) {
-    var condition = "id = " + req.params.id;
-
-    console.log("condition", condition);
-
-    burgers.update({
-        devoured: req.body.devoured
-    }, condition, function(){
+//devour a burger
+router.put("/burgers/update/", function (req, res) {
+    models.burgers.update({
+        devoured: true
+    },
+      { 
+        where: {
+            id: req.body.burger_id
+        }
+      }
+    // Then, select the eaten burger by it's id
+    ).then(function(data) {
         res.redirect("/burgers");
-    });
+
+  });
 });
 
 // Export routes for server.js to use.
